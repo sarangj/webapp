@@ -1,4 +1,4 @@
 meddjangoproject/meddjangoproject/settings.py
 Envs/*
-meddjangoproject/db.sqlite3
-meddjangoproject/meddjangoproject/settings.pyc
+*.sqlite3
+*.pyc
