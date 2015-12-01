@@ -15,17 +15,20 @@ class Address(models.Model):
   street_name = models.CharField(max_length = 200, blank = True)
   is_active = models.BooleanField(
       verbose_name = 'is address actively being used', 
-      default = True)
+      default = True
+      )
   user_submitted = models.BooleanField(default = False)
   # Two time stamp fields
   # auto_now_add time stamps when it is first created
   date_entered = models.DateTimeField(
       verbose_name = 'date+time address entered', 
-      auto_now_add = True)
+      auto_now_add = True
+      )
   # auto_now time stamps when the field is saved
   date_last_updated = models.DateTimeField(
       verbose_name = 'date+time last changed', 
-      auto_now = True)
+      auto_now = True
+      )
 
 
 class Specialty(models.Model):
