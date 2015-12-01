@@ -8,21 +8,24 @@ class Address(models.Model):
   street_address = models.CharField(max_length = 250)
   city = models.CharField(max_length = 150)
   state = models.CharField(max_length = 2)
-  zip_code = models.CharField(max_length = 5)
+  zip_code = models.CharField(max_length = 10)
   # street_number and street_name will be optional fields that can be used if
-  # we need t decompose the address into its arts
+  # we need to decompose the address into its parts
   street_number = models.CharField(max_length = 15, blank = True)
   street_name = models.CharField(max_length = 200, blank = True)
   is_active = models.BooleanField(
-      verbose_name = 'is address actively being used', default = True)
+      verbose_name = 'is address actively being used', 
+      default = True)
   user_submitted = models.BooleanField(default = False)
   # Two time stamp fields
   # auto_now_add time stamps when it is first created
   date_entered = models.DateTimeField(
-      verbose_name = 'date+time address entered', auto_now_add = True)
+      verbose_name = 'date+time address entered', 
+      auto_now_add = True)
   # auto_now time stamps when the field is saved
   date_last_updated = models.DateTimeField(
-      verbose_name = 'date+time last changed', auto_now = True)
+      verbose_name = 'date+time last changed', 
+      auto_now = True)
 
 
 class Specialty(models.Model):
