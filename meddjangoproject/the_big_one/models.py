@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.localflavor.fr.forms import USZipCodeField
-from django.contrib.localflavor.fr.forms import USStateField
-from django.contrib.localflavor.fr.forms import USPhoneNumberField
+from django.contrib.localflavor.us.models import USZipCodeField
+from django.contrib.localflavor.us.models import USStateField
+from django.contrib.localflavor.us.models import PhoneNumberField
 
 class Address(models.Model):
   street_address = models.CharField(max_length = 250)
@@ -25,7 +25,7 @@ class Address(models.Model):
       auto_now = True)
 
   def __str__(self):
-    self.full_address = '''
+    full_address = '''
         {address}
         {city},
         {state} {zip_code}
@@ -34,7 +34,7 @@ class Address(models.Model):
           city=self.city,
           state=self.state,
           zip_code=self.zip_code)
-
+    return full_address
 
 class Specialty(models.Model):
   # A model for storing the available specialties
@@ -53,7 +53,7 @@ class Doctor(models.Model):
   # multiple doctors therefore, many-to-many relationship
   specialties = models.ManyToManyField(Specialty)
   email_address = models.EmailField()
-  phone_number = USPhoneNumberField(max_length = 9)
+  phone_number = PhoneNumberField(max_length = 9)
   # This field should be automatically calculated by a script nightly
   average_price = models.DecimalField(max_digits = 10, decimal_places = 2)
 
@@ -91,6 +91,3 @@ class DoctorVisit(models.Model):
         procedure=self.procedure,
         price=self.showPrice())
     return full_output 
-
-
-
