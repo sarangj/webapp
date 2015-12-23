@@ -57,9 +57,15 @@ class Doctor(models.Model):
   # This field should be automatically calculated by a script nightly
   average_price = models.DecimalField(max_digits = 10, 
       blank = True, null = True, decimal_places = 2)
+  date_entered = models.DateTimeField(
+      verbose_name = 'date+time doctor entered', 
+      auto_now_add = True)
+  date_last_updated = models.DateTimeField(
+      verbose_name = 'date+time last changed', 
+      auto_now = True)
 
   def __str__(self):
-    self.name = self.first_name + ' ' +  self.last_name
-    return self.name
+    name = self.first_name + ' ' +  self.last_name
+    return name
 
 
