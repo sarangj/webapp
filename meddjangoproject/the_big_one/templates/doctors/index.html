@@ -1,0 +1,10 @@
+{% if latest_doctor_list %}
+  <ul>
+  {% for doctor in latest_doctor_list %}
+    <li><a href="/core/{{ doctor.id }}/">{{ doctor.first_name }}</a> </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>No doctors are available.</p>
+{% endif %}
+
