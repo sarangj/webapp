@@ -16,8 +16,15 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+# This means that medron.org/core will take them to the_big_one
+# medron.org/admin will take us to the admin site
+# I did this so that medron.org can be the ladning page, but they have to go
+# to core to get into the core functionality. The actual core page will be
+# blank similar to theonion.com's /section/ page
+
+# TODO re-think this so that people can access doctors from .../doctors/2
+# instead of .../core/doctors/2
 urlpatterns = [
     url(r'^core/', include('the_big_one.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', include('the_big_one.urls'))
 ]
