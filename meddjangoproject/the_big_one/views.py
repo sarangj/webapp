@@ -5,7 +5,9 @@ from django.shortcuts import render, get_object_or_404
 
 from .models import Doctor
 
-def index(request):
+# Takes variable number of argumnets because the trailing slash from the url 
+# gets fed to the view function
+def doc_index(request, *arg):
   latest_doctor_list = Doctor.objects.order_by('-date_entered')[:5]
   context = {'latest_doctor_list': latest_doctor_list}
   return render(request, 'doctors/index.html', context)
