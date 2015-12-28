@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.localflavor.us.models import USZipCodeField
-from django.contrib.localflavor.us.models import USStateField
-from django.contrib.localflavor.us.models import PhoneNumberField
+from localflavor.us.models import USZipCodeField
+from localflavor.us.models import USStateField
+from localflavor.us.models import PhoneNumberField
 
 class Address(models.Model):
   street_address = models.CharField(max_length = 250)
@@ -65,8 +65,8 @@ class DoctorVisit(models.Model):
   doctor = models.ForeignKey(Doctor)
   address = models.ForeignKey(Address)
   visit_date = models.DateTimeField('Date of Visit')
-  procedure = models.CharField('Procedure')
-  price = models.DecimalField('Price')
+  procedure = models.CharField('Procedure', max_length=250)
+  price = models.DecimalField('Price', decimal_places=2, max_digits=9)
 
   def showPrice():
     return '$' + str(self.price)
