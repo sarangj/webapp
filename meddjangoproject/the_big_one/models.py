@@ -1,16 +1,13 @@
 from django.db import models
-
+from localflavor.us.models import USZipCodeField
+from localflavor.us.models import USStateField
+from localflavor.us.models import PhoneNumberField
 
 class Address(models.Model):
-  # This table stores all the addresses for doctors
-  # TODO pretty much change all this to use local flavor 
-
   street_address = models.CharField(max_length = 250)
   city = models.CharField(max_length = 150)
-  state = models.CharField(max_length = 2)
-  zip_code = models.CharField(max_length = 10)
-  # street_number and street_name will be optional fields that can be used if
-  # we need to decompose the address into its parts
+  state = USStateField(max_length = 2)
+  zip_code = USZipCodeField(max_length = 10)
   street_number = models.CharField(max_length = 15, blank = True)
   street_name = models.CharField(max_length = 200, blank = True)
   is_active = models.BooleanField(
@@ -28,9 +25,16 @@ class Address(models.Model):
       auto_now = True)
 
   def __str__(self):
-    self.full_address = self.street_address + '\n' + self.city + ', ' + \
-        self.state + ' ' + self.zip_code
-
+    full_address = '''
+        {address}
+        {city},
+        {state} {zip_code}
+    '''.format(
+          address=self.street_address,
+          city=self.city,
+          state=self.state,
+          zip_code=self.zip_code)
+    return full_address
 
 class Specialty(models.Model):
   # A model for storing the available specialties
@@ -49,8 +53,7 @@ class Doctor(models.Model):
   # multiple doctors therefore, many-to-many relationship
   specialties = models.ManyToManyField(Specialty)
   email_address = models.EmailField()
-  # TODO change this to use localflavor
-  phone_number = models.CharField(max_length = 9)
+  phone_number = PhoneNumberField(max_length = 9)
   # This field should be automatically calculated by a script nightly
   average_price = models.DecimalField(max_digits = 10, decimal_places = 2)
 
@@ -58,4 +61,33 @@ class Doctor(models.Model):
     self.name = self.first_name + ' ' +  self.last_name
     return self.name
 
+class DoctorVisit(models.Model):
+  doctor = models.ForeignKey(Doctor)
+  address = models.ForeignKey(Address)
+  visit_date = models.DateTimeField('Date of Visit')
+  procedure = models.CharField('Procedure', max_length=250)
+  price = models.DecimalField('Price', decimal_places=2, max_digits=9)
 
+  def showPrice():
+    return '$' + str(self.price)
+
+  def __str__(self):
+    doctor_string = str(self.doctor)
+    address_string = str(self.address)
+    full_output = '''
+      Doctor : {doctor}
+
+      Address : {address}
+
+      Date of Visit : {visit_date}
+
+      procedure : {procedure}
+
+      price : {price}
+    '''.format(
+        doctor_string=str(self.doctor),
+        address_string=str(self.address),
+        visit_date=str(self.visit_date),
+        procedure=self.procedure,
+        price=self.showPrice())
+    return full_output 
