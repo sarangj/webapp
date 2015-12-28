@@ -2,3 +2,4 @@ meddjangoproject/meddjangoproject/settings.py
 Envs/*
 *.sqlite3
 *.pyc
+*.swp

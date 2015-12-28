@@ -1,0 +1,13 @@
+{% if latest_doctor_list %}
+  <ul>
+  {% for doctor in latest_doctor_list %}
+  <!--  URLs should not be hard-coded into template
+  This will look for the url pattern named doctor
+  -->
+    <li><a href="{% url 'doctor' doctor.id %}">{{ doctor.first_name }}</a> </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>No doctors are available.</p>
+{% endif %}
+

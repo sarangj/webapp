@@ -43,23 +43,33 @@ class Specialty(models.Model):
 
   specialty_name = models.CharField(max_length = 250)
 
+  def __str__(self):
+    return self.specialty_name
+
 class Doctor(models.Model):
   first_name = models.CharField(max_length = 100)
   last_name = models.CharField(max_length = 100)
   # a doctor has one address, but multiple doctors can have same address
   # therefore, many-to-one replationship
-  address = models.ForeignKey(Address)
+  address = models.ForeignKey(Address, blank=True, null=True)
   # doctor can have multiple specialties and specialties can belong to 
   # multiple doctors therefore, many-to-many relationship
   specialties = models.ManyToManyField(Specialty)
   email_address = models.EmailField()
   phone_number = PhoneNumberField(max_length = 9)
   # This field should be automatically calculated by a script nightly
-  average_price = models.DecimalField(max_digits = 10, decimal_places = 2)
+  average_price = models.DecimalField(max_digits = 10, 
+      blank = True, null = True, decimal_places = 2)
+  date_entered = models.DateTimeField(
+      verbose_name = 'date+time doctor entered', 
+      auto_now_add = True)
+  date_last_updated = models.DateTimeField(
+      verbose_name = 'date+time last changed', 
+      auto_now = True)
 
   def __str__(self):
-    self.name = self.first_name + ' ' +  self.last_name
-    return self.name
+    name = self.first_name + ' ' +  self.last_name
+    return name
 
 class DoctorVisit(models.Model):
   doctor = models.ForeignKey(Doctor)
